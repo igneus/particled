@@ -14,9 +14,9 @@
 # physFS and guichan are under my home dir: /home/igneus/dist/TMW/include
 include = ['/usr/include/SDL', 
            '/usr/include/libxml2', 
-           '/home/igneus/dist/TMW/include']
+           '/usr/local/include']
 # flags for the compiler; you shouldn't need to modify them
-flags = '-L/home/igneus/dist/TMW/lib -DTMW_DATADIR=\""."\"' #+ ' -g'
+flags = '-DTMW_DATADIR=\""."\"' #+ ' -g'
 
 ##########################################################################
 # END OF AREA

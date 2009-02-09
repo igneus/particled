@@ -1,0 +1,15 @@
+==========  particlEd :: ToDo list  ==========
+
+(-) keyboard controls:
+    - restart effect
+    - reload effect
+
+(-) options:
+    - loop (start effect whenever it ends or regularly after some time)
+    - reload effect whenever it is changed on the disk?
+
+(-) controller panel:
+    - buttons (> play)(||pause)(stop)
+    - time of effect's existence
+
+(-) tree-view of effect's internals
