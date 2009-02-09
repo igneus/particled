@@ -2,22 +2,24 @@
     particlEd
 -------------------
 
-This is first public version of particlEd, small tool which displays
-particle effect defined in a XML file according to the standard
-used in The Mana World (http://themanaworld.org).
-It should help developers of particle effects to work quicker,
-without restarting TMW client again and again (restarting particlEd
-should be much quicker and less annoying).
+ParticlEd is a small tool which displays particle effect defined in XML files
+according to standard used in The Mana World (http://themanaworld.org).
+It should help developers of particle effects to work quicker, without 
+restarting TMW client again and again (restarting particlEd should be much 
+quicker and less annoying).
+In future particlEd should evolve from simple viewer to comfortable editor.
 
 HOW TO BUILD
 
 Unfortunatelly I am not familiar with autotools, so you'll have to undertake
-a possible painful building procedure:
+a possibly painful building procedure:
 
 1. get all libraries and header files needed to compile TMW client from source
+   [PhysFS, Guichan, SDL & affiliates]
 2. modify makemake.rb (just list of header locations at the top of script)
-3. run 'ruby makemake.rb' to generate Makefile
-4. run 'make'
+3. get some interpreter of Ruby if you haven't got it
+4. run 'ruby makemake.rb' to generate Makefile
+5. run 'make'
 
 USAGE
 
@@ -44,10 +46,7 @@ because physFS would reject it as insecure.
 
 LICENSE
 
-particlEd is work derived of software project released under GNU/GPL and
-thus it will be released under GNU/GPL itself, as soon as I do 
-all the necessary "legal operations" such as writing notices into
-modified files.
+GNU/GPL v.2 (license of TMW client)
 
 AUTHORS
 
