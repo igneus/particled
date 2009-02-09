@@ -1,0 +1,63 @@
+-------------------
+    particlEd
+-------------------
+
+This is first public version of particlEd, small tool which displays
+particle effect defined in a XML file according to the standard
+used in The Mana World (http://themanaworld.org).
+It should help developers of particle effects to work quicker,
+without restarting TMW client again and again (restarting particlEd
+should be much quicker and less annoying).
+
+HOW TO BUILD
+
+Unfortunatelly I am not familiar with autotools, so you'll have to undertake
+a possible painful building procedure:
+
+1. get all libraries and header files needed to compile TMW client from source
+2. modify makemake.rb (just list of header locations at the top of script)
+3. run 'ruby makemake.rb' to generate Makefile
+4. run 'make'
+
+USAGE
+
+'particled -h' shows you list of options.
+
+The only required argument is particle effect file name relative to directory
+where you execute particled (or another directory if you use -d option)
+
+Very important is option -d, which specifies TMW data directory.
+particlEd presumes that directory specified by -d (or current working
+directory if not given this option) is TMW data directory,
+which contains subdirectory graphics.
+
+Examples:
+
+[~]$ particled -d ./tmw/data graphics/particles/hit.particle.xml
+-d option is used; effect file location is then relative to the given
+directory, not to current working directory
+
+[~/tmw/data]$ particled graphics/particles/hit.particle.xml
+I haven't used -d option, so current working directory is set as data dir;
+however, I can't give effect file name './graphics/particles/hit.particle.xml',
+because physFS would reject it as insecure.
+
+LICENSE
+
+particlEd is work derived of software project released under GNU/GPL and
+thus it will be released under GNU/GPL itself, as soon as I do 
+all the necessary "legal operations" such as writing notices into
+modified files.
+
+AUTHORS
+
+Most of the code of particlEd is simply copied from TMW tree; so TMW developers
+are authors of code, I'm just "editor" who has cooked something else from
+what they had written before. (On the other side - I can't blame TMW developers
+for crappiness of particlEd.)
+
+Minor modifications and main.cpp : 
+Jakub Pavlik 
+  mail: igneus_cz@users.sourceforge.net 
+  TMW forum nick: igneus
+  TMW main character: gibbor haggadol
