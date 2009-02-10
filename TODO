@@ -4,12 +4,9 @@
     study terms of GPL (do I have to change headers "TMW project" or can I let
     them as they are?)
 
-(-) window should be resizable (sometimes I find that effect needs much more 
-    space - I should be able to add space without restarting)
-
 (-) options:
     - fix -h (seems to be broken)
-    - loop (start effect whenever it ends or regularly after some time)
+    - loop (start effect whenever it ends: -l)
     - reload effect whenever it is changed on the disk?
     - verbose (particlEd is too verbose by default, which is bad)
 
@@ -20,5 +17,9 @@
 (-) selecting a file:
     - particled can be started without an effect file given
     - button 'Open' -> dialog to open file
+
+(-) window should be resizable (sometimes I find that effect needs much more 
+    space - I should be able to add space without restarting)
+    (I don't know if this is possible together with Guichan GUI...)
 
 (-) tree-view of effect's internals
