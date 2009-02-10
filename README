@@ -23,6 +23,8 @@ a possibly painful building procedure:
 
 USAGE
 
+1. Options
+
 'particled -h' shows you list of options.
 
 The only required argument is particle effect file name relative to directory
@@ -43,6 +45,12 @@ directory, not to current working directory
 I haven't used -d option, so current working directory is set as data dir;
 however, I can't give effect file name './graphics/particles/hit.particle.xml',
 because physFS would reject it as insecure.
+
+2. Keys:
+
+r - starts new effect (by repeated pressing of 'r' you can achieve many same
+    effects at the same place)
+n - removes all effects and starts one new
 
 LICENSE
 

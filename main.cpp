@@ -1,7 +1,9 @@
 /*
 particled
 
-TMW particle engine viewer
+TMW particle effect viewer
+
+A lot of code copied from various parts of TMW client.
 */
 
 #include <iostream>
@@ -67,6 +69,8 @@ void initEngine();
 void exitEngine();
 void parseOptions(int argc, char *argv[], Options &options);
 void printHelp();
+void startEffect();
+void purgeParticles();
 
 int main(int argc, char* argv[])
 {
@@ -102,9 +106,7 @@ int main(int argc, char* argv[])
   m = new Map(1,1,200,200);
   particleEngine->setMap(m);
 
-  particleEngine->addEffect(options.effectFile, 
-			    options.effectX, 
-			    options.effectY);
+  startEffect();
 
   logger->log("-> game loop");
 
@@ -120,6 +122,16 @@ int main(int argc, char* argv[])
     while (SDL_PollEvent(&event)) {
       if (event.type == SDL_QUIT) {
 	quit = true;
+      } else if (event.type == SDL_KEYDOWN) {
+	switch (event.key.keysym.sym) {
+	case SDLK_r:
+	  startEffect();
+	  break;
+	case SDLK_n:
+	  purgeParticles();
+	  startEffect();
+	  break;
+	}
       }
     }
 
@@ -227,6 +239,22 @@ void initEngine()
   logger->log("[GFX] Ok.");
 
   // gui = new Gui(graphics);
+}
+
+/** Starts effect defined in options */
+void startEffect()
+{
+  logger->log("Adding effect.");
+  particleEngine->addEffect(options.effectFile, 
+			    options.effectX, 
+			    options.effectY);
+
+}
+
+/** Purges all particles from the engine */
+void purgeParticles()
+{
+  logger->log("Purging particles.");
 }
 
 /** Clear the engine */
