@@ -8,9 +8,14 @@
     - main.cpp: implement method purgeParticles()
     - quit
 
+(-) window should be resizable (sometimes I find that effect needs much more 
+    space - I should be able to add space without restarting)
+
 (-) options:
+    - fix -h (seems to be broken)
     - loop (start effect whenever it ends or regularly after some time)
     - reload effect whenever it is changed on the disk?
+    - verbose (particlEd is too verbose by default, which is bad)
 
 (-) controller panel:
     - buttons (> play)(||pause)(stop)
