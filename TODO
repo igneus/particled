@@ -4,10 +4,6 @@
     study terms of GPL (do I have to change headers "TMW project" or can I let
     them as they are?)
 
-(-) keyboard controls:
-    - main.cpp: implement method purgeParticles()
-    - quit
-
 (-) window should be resizable (sometimes I find that effect needs much more 
     space - I should be able to add space without restarting)
 

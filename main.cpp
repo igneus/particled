@@ -70,7 +70,6 @@ void exitEngine();
 void parseOptions(int argc, char *argv[], Options &options);
 void printHelp();
 void startEffect();
-void purgeParticles();
 
 int main(int argc, char* argv[])
 {
@@ -124,11 +123,16 @@ int main(int argc, char* argv[])
 	quit = true;
       } else if (event.type == SDL_KEYDOWN) {
 	switch (event.key.keysym.sym) {
+	case SDLK_ESCAPE:
+	case SDLK_q:
+	  quit = true;
 	case SDLK_r:
+	  // start new effect
 	  startEffect();
 	  break;
 	case SDLK_n:
-	  purgeParticles();
+	  // delete all particles and start new effect
+	  particleEngine->clear();
 	  startEffect();
 	  break;
 	}
@@ -249,12 +253,6 @@ void startEffect()
 			    options.effectX, 
 			    options.effectY);
 
-}
-
-/** Purges all particles from the engine */
-void purgeParticles()
-{
-  logger->log("Purging particles.");
 }
 
 /** Clear the engine */
