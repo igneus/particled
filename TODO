@@ -7,7 +7,7 @@
 (-) some simple tool - like Ruby/Tk app - which simplifies selecting an effect
 
 (-) keyboard controls:
-    - restart effect
+    - main.cpp: implement method purgeParticles()
     - quit
 
 (-) options:
