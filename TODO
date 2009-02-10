@@ -1,8 +1,14 @@
 ==========  particlEd :: ToDo list  ==========
 
+(-) add notices to modified TMW files;
+    study terms of GPL (do I have to change headers "TMW project" or can I let
+    them as they are?)
+
+(-) some simple tool - like Ruby/Tk app - which simplifies selecting an effect
+
 (-) keyboard controls:
     - restart effect
-    - reload effect
+    - quit
 
 (-) options:
     - loop (start effect whenever it ends or regularly after some time)
