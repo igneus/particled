@@ -44,6 +44,7 @@ struct Options
     effectX(0),
     effectY(0),
     quitOnEffectEnd(false),
+    loop(false),
     backgroundColour(0,0,0)
   {};
 
@@ -56,6 +57,7 @@ struct Options
   std::string effectFile;
 
   bool quitOnEffectEnd;
+  bool loop;
 
   gcn::Color backgroundColour;
 };
@@ -151,8 +153,12 @@ int main(int argc, char* argv[])
     graphics->updateScreen();
 
     // end if particle effect has ended
-    if (options.quitOnEffectEnd && (m->getNumSprites() == 1)) {
-      quit = true;
+    if (m->getNumSprites() == 1) {
+      if (options.quitOnEffectEnd) {
+	quit = true;
+      } else if (options.loop) {
+	startEffect();
+      }
     }
 
     if (quit) {
@@ -277,12 +283,13 @@ void parseOptions(int argc, char *argv[], Options &options)
     {"effect-x", required_argument, 0, 'x'},
     {"effect-y", required_argument, 0, 'y'},
     {"quit-on-end", no_argument, 0, 'q'},
+    {"loop", no_argument, 0, 'l'},
     {"datadir", required_argument, 0, 'd'},
     {"bg-colour", required_argument, 0, 'b'},
     {0, 0, 0, 0}
   };
 
-  const char *optstring = "hW:H:x:y:qd:b:";
+  const char *optstring = "hW:H:x:y:qld:b:";
 
   while (1) {
     int result = getopt_long(argc, argv, optstring, long_options, NULL);
@@ -308,6 +315,15 @@ void parseOptions(int argc, char *argv[], Options &options)
       break;
     case 'q':
       options.quitOnEffectEnd = true;
+      if (options.loop) {
+	logger->log("Error: --loop shouldn't be used together with --quit-on-end");
+      }
+      break;
+    case 'l':
+      options.loop = true;
+      if (options.quitOnEffectEnd) {
+	logger->log("Error: --quit-on-end shouldn't be used together with --loop");
+      }
       break;
     case 'd':
       options.dataDir = optarg;
@@ -343,6 +359,7 @@ void printHelp()
   std::cout << "-x --effect-x   set x of the effect (default 100)" << std::endl;
   std::cout << "-Y --effect-y                       (default 100)" << std::endl;
   std::cout << "-q --quit-on-end Close program as soon as effect ends" << std::endl;
+  std::cout << "-l --loop        restart effect whenever it ends" << std::endl; 
   std::cout << "-d --datadir    set TMW data directory for PhysFS (default \".\")" << std::endl;
   std::cout << "-b --bg-colour  Does nothing" << std::endl;
   std::cout << std::endl;

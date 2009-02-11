@@ -6,33 +6,46 @@
 # simple wrapper for particlEd;
 # has simple feature to choose effect
 #
+# Options:
 # option -r chooses random effect
+# anything behind pseudo-option '--' is given as argument to particled
 
-# modify this to fit 
+# Configuration area =================================================
 tmw_data_dir = '/home/igneus/src/cplusplus/particlEd/trunk'
+effect_subdir = 'graphics/particles'
+# end of configuration area ==========================================
 
+require 'rubygems'
+require 'trollop'
 
-choose = true
 # commandline options:
-if ARGV.join(' ') =~ /-r/ then
-  choose = false
+opts = Trollop::options do
+  opt :random, "Choose random effect"
+  stop_on ['--']
 end
 
-effect_subdir = 'graphics/particles'
+unless ARGV.empty?
+  ARGV.shift # remove '--'
+  options_for_particled = ARGV.join ' '
+end
+
 effects = Dir[tmw_data_dir+'/'+effect_subdir+'/*.particle.xml'].collect do |f|
   File.basename f
 end
 
-if choose then
+if opts[:random] then
+  e = effects[rand(effects.size)]
+  puts "Random effect: '#{e}'"
+else
   effects.each_with_index {|f,i| puts "#{i.to_s.rjust(3)}| #{f}"}
   choice = nil
   begin
     print "choose: "
-    choice = Integer(gets)
+    choice = Integer(STDIN.gets)
   end while choice >= effects.size || choice < 0
   e = effects[choice]
-else
-  e = effects[rand(effects.size)]
 end
 
-exec "./particled -d #{tmw_data_dir} #{effect_subdir}/#{e}"
+cmd = "./particled #{options_for_particled} -d #{tmw_data_dir} #{effect_subdir}/#{e}"
+puts cmd
+exec cmd
