@@ -7,7 +7,6 @@
 (-) options:
     - reload effect whenever it is changed on the disk?
     - verbose (particlEd is too verbose by default, which is bad)
-    - implement option -b
 
 (-) controller panel:
     - buttons (> play)(||pause)(stop)

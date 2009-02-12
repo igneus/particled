@@ -24,16 +24,9 @@ A lot of code copied from various parts of TMW client.
 #include "particle.h"
 #include "resources/image.h"
 #include "resources/resourcemanager.h"
+#include "resources/dye.h"
 #include "graphics.h"
 #include "configuration.h"
-
-
-
-Graphics *graphics;
-
-Logger *logger;
-
-Particle *particleEngine;
 
 struct Options
 {
@@ -61,6 +54,13 @@ struct Options
 
   gcn::Color backgroundColour;
 };
+
+
+Graphics *graphics;
+
+Logger *logger;
+
+Particle *particleEngine;
 
 // in particlEd Configuration is empty (mock!)
 Configuration config;
@@ -273,6 +273,21 @@ void exitEngine()
   ResourceManager::deleteInstance();
 }
 
+/** parse given colour string and put the colour to options.backgroundColour */
+void setBackgroundColour(char *bgc_str)
+{
+  // use dyeing engine to parse the colour:
+  std::string s(bgc_str);
+  Palette pal(s);
+  int col[3] = {255,255,255};
+
+  pal.getColor(255, col);
+
+  options.backgroundColour.r = col[0];
+  options.backgroundColour.g = col[1];
+  options.backgroundColour.b = col[2];
+}
+
 /** Parse command line options */
 void parseOptions(int argc, char *argv[], Options &options)
 {
@@ -329,7 +344,7 @@ void parseOptions(int argc, char *argv[], Options &options)
       options.dataDir = optarg;
       break;
     case 'b':
-      logger->log("Not yet implemented.");
+      setBackgroundColour(optarg);
       break;
     default:
       break;
@@ -361,7 +376,7 @@ void printHelp()
   std::cout << "-q --quit-on-end Close program as soon as effect ends" << std::endl;
   std::cout << "-l --loop        restart effect whenever it ends" << std::endl; 
   std::cout << "-d --datadir    set TMW data directory for PhysFS (default \".\")" << std::endl;
-  std::cout << "-b --bg-colour  Does nothing" << std::endl;
+  std::cout << "-b --bg-colour  hexadecimal RGB colour (e.g. \"#ff0000\" - red)" << std::endl;
   std::cout << std::endl;
   std::cout << "EFFECT          effect file location (relative to given DIR)" << std::endl;
 }
