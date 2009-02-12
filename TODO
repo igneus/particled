@@ -21,3 +21,9 @@
     (I don't know if this is possible together with Guichan GUI...)
 
 (-) tree-view of effect's internals
+
+(-) TMW client doesn't have very useful error messages for malformed
+    particle effects;
+    write 'particle effect lint' - Ruby script which loads particle effect,
+    checks if it makes sense and provides useful hints.
+    Or rewrite parts of TMW processing XML...
