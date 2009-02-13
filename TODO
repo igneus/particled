@@ -5,9 +5,11 @@
     them as they are?)
 
 (-) controller panel:
-    - buttons (> play)(||pause)(stop)
+    - one button is always 'pressed' and looks differently
     - time of effect's existence
     - how will it notify main program about the desired state?
+
+(-) tree-view of effect's internals
 
 (-) options:
     - reload effect whenever it is changed on the disk?
@@ -20,8 +22,6 @@
 (-) window should be resizable (sometimes I find that effect needs much more 
     space - I should be able to add space without restarting)
     (I don't know if this is possible together with Guichan GUI...)
-
-(-) tree-view of effect's internals
 
 (-) TMW client doesn't have very useful error messages for malformed
     particle effects;
