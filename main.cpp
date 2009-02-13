@@ -26,6 +26,7 @@ A lot of code copied from various parts of TMW client.
 #include "particle.h"
 #include "resources/image.h"
 #include "resources/resourcemanager.h"
+#include "resources/imageloader.h"
 #include "resources/dye.h"
 #include "graphics.h"
 #include "configuration.h"
@@ -37,7 +38,7 @@ struct Options
   Options():
     printHelpAndExit(false),
     winWidth(200),
-    winHeight(200),
+    winHeight(250),
     effectX(0),
     effectY(0),
     quitOnEffectEnd(false),
@@ -60,11 +61,14 @@ struct Options
 };
 
 
+// global variables:
 Logger *logger;
 
-Graphics *graphics;
+Graphics* graphics;
 gcn::Gui* gui;
+gcn::Container* top;
 gcn::ImageFont* font;
+ImageLoader* imageLoader; // TMW's ImageLoader, not GCN's virtual class
 
 EffectViewer *effectViewer;
 
@@ -106,13 +110,10 @@ int main(int argc, char* argv[])
 
   effectViewer->setEffectPosition(options.effectX, options.effectY);
   effectViewer->setBackgroundColour(options.backgroundColour);
+
   startEffect();
 
   logger->log("-> game loop");
-
-  gcn::Rectangle *gfxRect = new gcn::Rectangle(0,0,
-					       graphics->getWidth(),
-					       graphics->getHeight());
 
   SDL_Event event;
   bool quit = false;
@@ -161,8 +162,6 @@ int main(int argc, char* argv[])
     SDL_Delay(10);
   }
 
-  delete gfxRect;
-
   logger->log("-> game loop ended");
 
   logger->log("-> exit engine");
@@ -210,6 +209,8 @@ void initEngine()
   } else {
     resman->addToSearchPath(options.dataDir, false);
   }
+  // directory with particlEd's own data:
+  // resman->addToSearchPath("/home/igneus/src/cplusplus/particlEd/particled/data", false);
 
   logger->log("[RM] OK.");
 
@@ -241,11 +242,48 @@ void initEngine()
   gui = new gcn::Gui();
   gui->setGraphics(graphics);
 
+  imageLoader = new ImageLoader();
+  gcn::Image::setImageLoader(imageLoader);
+
+  /*
+  try {
+    std::string fontpath = resman->getPath("sansserif8.png");
+    font = new gcn::ImageFont(fontpath.c_str(), " !\"#$%&'()=+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~|");
+  } catch (gcn::Exception e) {
+    logger->log("Error: Can't load font.");
+    exit(1);
+  }
+  gcn::Widget::setGlobalFont(font);
+  */
+
+  top = new gcn::Container;
+  top->setDimension(gcn::Rectangle(0,0,graphics->getWidth(),
+				   graphics->getHeight()));
+  gui->setTop(top);
+
   effectViewer = new EffectViewer();
-  gui->setTop(effectViewer);
+  top->add(effectViewer);
   effectViewer->setDimension(gcn::Rectangle(0,0,
 					    graphics->getWidth(),
-					    graphics->getHeight()));
+					    graphics->getHeight() - 50));
+}
+
+/** Clear the engine */
+void exitEngine()
+{
+  delete effectViewer;
+  delete top;
+  delete graphics;
+  delete gui;
+  /*
+  delete font;
+  */
+  delete imageLoader;
+
+  // Shutdown libxml
+  xmlCleanupParser();
+
+  ResourceManager::deleteInstance();
 }
 
 /** Starts effect defined in options */
@@ -253,19 +291,6 @@ void startEffect()
 {
   logger->log("Adding effect.");
   effectViewer->setEffect(options.effectFile);
-}
-
-/** Clear the engine */
-void exitEngine()
-{
-  delete effectViewer;
-  delete graphics;
-  delete gui;
-
-  // Shutdown libxml
-  xmlCleanupParser();
-
-  ResourceManager::deleteInstance();
 }
 
 /** parse given colour string and put the colour to options.backgroundColour */
