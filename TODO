@@ -4,13 +4,14 @@
     study terms of GPL (do I have to change headers "TMW project" or can I let
     them as they are?)
 
-(-) options:
-    - reload effect whenever it is changed on the disk?
-    - verbose (particlEd is too verbose by default, which is bad)
-
 (-) controller panel:
     - buttons (> play)(||pause)(stop)
     - time of effect's existence
+    - how will it notify main program about the desired state?
+
+(-) options:
+    - reload effect whenever it is changed on the disk?
+    - verbose (particlEd is too verbose by default, which is bad)
 
 (-) selecting a file:
     - particled can be started without an effect file given

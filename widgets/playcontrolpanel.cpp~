@@ -1,0 +1,29 @@
+PlayControlPanel::PlayControlPabel()
+{
+  playControlContainer = new gcn::Window("play controller");
+  
+  playButton = new gcn::Button(">");
+  playButton->setWidth(15);
+  playButton->setPosition(10,10);
+  playControlContainer->add(playButton);
+  
+  pauseButton = new gcn::Button("||");
+  pauseButton->setWidth(15);
+  pauseButton->setPosition(35,10);
+  playControlContainer->add(pauseButton);
+  
+  stopButton = new gcn::Button("#");
+  stopButton->setWidth(15);
+  stopButton->setPosition(60,10);
+  playControlContainer->add(stopButton);
+
+  this->resizeToContent();
+}
+
+PlayControlPanel::~PlayControlPabel()
+{
+  delete playControlContainer;
+  delete playButton;
+  delete pauseButton;
+  delete stopButton;
+}

@@ -1,0 +1,2 @@
+helloworld: helloworld.cpp
+	g++ -o helloworld helloworld.cpp -lSDL -lSDL_image -lSDL_ttf -lguichan -lguichan_sdl -L~/dist/TMW/lib -I~/dist/TMW/include -I/usr/include/SDL

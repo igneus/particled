@@ -1,0 +1,17 @@
+/*
+Window with three buttons: play, pause and stop.
+*/
+
+#include <guichan.hpp>
+
+class PlayControlPanel : public gcn::Window, gcn::MouseListener
+{
+ public:
+
+  PlayControlPanel();
+  ~PlayControlPanel();
+
+  bool isPlaying();
+  bool isPaused();
+  bool isStopped();
+};
