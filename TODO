@@ -4,10 +4,14 @@
     study terms of GPL (do I have to change headers "TMW project" or can I let
     them as they are?)
 
+(-) study TMW coding standard and modify particlEd's code to accomplish it
+
+(-) Finish EffectViewer
+
 (-) controller panel:
     - one button is always 'pressed' and looks differently
-    - time of effect's existence
     - how will it notify main program about the desired state?
+    - time of effect's existence
 
 (-) tree-view of effect's internals
 

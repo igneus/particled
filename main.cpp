@@ -14,6 +14,8 @@ A lot of code copied from various parts of TMW client.
 #include <SDL.h>
 #include <SDL_image.h>
 
+#include <guichan.hpp>
+
 #include <libxml/parser.h>
 
 #include <getopt.h>
@@ -27,6 +29,8 @@ A lot of code copied from various parts of TMW client.
 #include "resources/dye.h"
 #include "graphics.h"
 #include "configuration.h"
+
+#include "widgets/effectviewer.h"
 
 struct Options
 {
@@ -56,11 +60,13 @@ struct Options
 };
 
 
-Graphics *graphics;
-
 Logger *logger;
 
-Particle *particleEngine;
+Graphics *graphics;
+gcn::Gui* gui;
+gcn::ImageFont* font;
+
+EffectViewer *effectViewer;
 
 // in particlEd Configuration is empty (mock!)
 Configuration config;
@@ -75,8 +81,6 @@ void startEffect();
 
 int main(int argc, char* argv[])
 {
-  Map *m;
-
   logger = new Logger();
 
   // parse options; set some defaults; control required ones
@@ -100,13 +104,8 @@ int main(int argc, char* argv[])
   logger->log("-> initialize engine");
   initEngine();
 
-  // create map, load particle effect
-  particleEngine = new Particle(NULL);
-  particleEngine->setupEngine();
-
-  m = new Map(1,1,200,200);
-  particleEngine->setMap(m);
-
+  effectViewer->setEffectPosition(options.effectX, options.effectY);
+  effectViewer->setBackgroundColour(options.backgroundColour);
   startEffect();
 
   logger->log("-> game loop");
@@ -134,26 +133,20 @@ int main(int argc, char* argv[])
 	  break;
 	case SDLK_n:
 	  // delete all particles and start new effect
-	  particleEngine->clear();
+	  effectViewer->cleanParticles();
 	  startEffect();
 	  break;
 	}
       }
     }
 
-    particleEngine->update();
-
-    graphics->setColor(options.backgroundColour);
-    graphics->fillRectangle(*gfxRect);
-
-    m->draw(graphics, 0, 0);
-
     // std::cout << m->getNumSprites() << std::endl;
 
+    effectViewer->draw(graphics);
     graphics->updateScreen();
 
     // end if particle effect has ended
-    if (m->getNumSprites() == 1) {
+    if (effectViewer->isEffectOver()) {
       if (options.quitOnEffectEnd) {
 	quit = true;
       } else if (options.loop) {
@@ -171,9 +164,6 @@ int main(int argc, char* argv[])
   delete gfxRect;
 
   logger->log("-> game loop ended");
-
-  delete particleEngine;
-  delete m;
 
   logger->log("-> exit engine");
   exitEngine();
@@ -248,24 +238,29 @@ void initEngine()
 
   logger->log("[GFX] Ok.");
 
-  // gui = new Gui(graphics);
+  gui = new gcn::Gui();
+  gui->setGraphics(graphics);
+
+  effectViewer = new EffectViewer();
+  gui->setTop(effectViewer);
+  effectViewer->setDimension(gcn::Rectangle(0,0,
+					    graphics->getWidth(),
+					    graphics->getHeight()));
 }
 
 /** Starts effect defined in options */
 void startEffect()
 {
   logger->log("Adding effect.");
-  particleEngine->addEffect(options.effectFile, 
-			    options.effectX, 
-			    options.effectY);
-
+  effectViewer->setEffect(options.effectFile);
 }
 
 /** Clear the engine */
 void exitEngine()
 {
-  //delete gui;
+  delete effectViewer;
   delete graphics;
+  delete gui;
 
   // Shutdown libxml
   xmlCleanupParser();
