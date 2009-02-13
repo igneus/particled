@@ -38,7 +38,7 @@ struct Options
   Options():
     printHelpAndExit(false),
     winWidth(200),
-    winHeight(250),
+    winHeight(200),
     effectX(0),
     effectY(0),
     quitOnEffectEnd(false),
@@ -216,7 +216,7 @@ void initEngine()
 
   logger->log("[GFX] Setting up video.");
   int width = options.winWidth;
-  int height = options.winHeight;
+  int height = options.winHeight+50;
   int bpp = 0;
   bool fullscreen = 0;
   bool hwaccel = 0;
@@ -264,8 +264,8 @@ void initEngine()
   effectViewer = new EffectViewer();
   top->add(effectViewer);
   effectViewer->setDimension(gcn::Rectangle(0,0,
-					    graphics->getWidth(),
-					    graphics->getHeight() - 50));
+					    options.winWidth,
+					    options.winHeight));
 }
 
 /** Clear the engine */

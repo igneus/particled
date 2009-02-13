@@ -6,7 +6,7 @@
 
 (-) study TMW coding standard and modify particlEd's code to accomplish it
 
-(-) Finish EffectViewer
+(-) find how to load fonts - either solve the physfs issue or discard physfs
 
 (-) controller panel:
     - one button is always 'pressed' and looks differently
