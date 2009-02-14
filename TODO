@@ -8,6 +8,8 @@
 
 (-) enable input
 
+(-) main.cpp: replace literal "50" with constant
+
 (-) find how to load fonts - either solve the physfs issue or discard physfs
 
 (-) controller panel:
@@ -18,8 +20,12 @@
 (-) tree-view of effect's internals
 
 (-) options:
+    - show position of the effect using some symbol (e.g. small red X)
+    - show current particle count
+    - show fps
+    - set delay per frame
     - reload effect whenever it is changed on the disk?
-    - verbose (particlEd is too verbose by default, which is bad)
+    - verbosity (particlEd is too verbose by default, which is bad)
 
 (-) selecting a file:
     - particled can be started without an effect file given
