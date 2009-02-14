@@ -6,7 +6,7 @@ Widget which views particle effect.
 #include <string>
 #include "../particle.h"
 #include "../map.h"
-#include "../graphics.h"
+// #include "../graphics.h"
 
 class EffectViewer : public gcn::Container
 {
@@ -23,7 +23,7 @@ class EffectViewer : public gcn::Container
   void setEffectPosition(int x, int y);
   void setBackgroundColour(gcn::Color rgb);
 
-  void draw(Graphics *graphics);
+  virtual void draw(gcn::Graphics *graphics);
 
   /* Returns number of particles. */
   int particleCount();

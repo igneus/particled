@@ -29,7 +29,7 @@ unless ARGV.empty?
   options_for_particled = ARGV.join ' '
 end
 
-effects = Dir[tmw_data_dir+'/'+effect_subdir+'/*.particle.xml'].collect do |f|
+effects = Dir[tmw_data_dir+'/'+effect_subdir+'/*.particle.xml'].sort.collect do |f|
   File.basename f
 end
 

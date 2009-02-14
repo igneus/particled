@@ -6,6 +6,8 @@
 
 (-) study TMW coding standard and modify particlEd's code to accomplish it
 
+(-) enable input
+
 (-) find how to load fonts - either solve the physfs issue or discard physfs
 
 (-) controller panel:

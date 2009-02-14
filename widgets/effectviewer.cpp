@@ -1,4 +1,5 @@
 #include "effectviewer.h"
+#include "../graphics.h"
 
 EffectViewer::EffectViewer():
   backgroundColour(0,0,0)
@@ -42,14 +43,14 @@ void EffectViewer::setBackgroundColour(gcn::Color rgb)
   backgroundColour.b = rgb.b;
 }
 
-void EffectViewer::draw(Graphics *graphics)
+void EffectViewer::draw(gcn::Graphics *graphics)
 {
   particleEngine->update();
 
   graphics->setColor(backgroundColour);
   graphics->fillRectangle(this->getDimension());
 
-  m->draw(graphics, 0, 0);
+  m->draw(static_cast<Graphics*>(graphics), 0, 0);
 }
 
 int EffectViewer::particleCount()

@@ -15,6 +15,7 @@ A lot of code copied from various parts of TMW client.
 #include <SDL_image.h>
 
 #include <guichan.hpp>
+#include <guichan/sdl/sdlimageloader.hpp>
 
 #include <libxml/parser.h>
 
@@ -32,6 +33,7 @@ A lot of code copied from various parts of TMW client.
 #include "configuration.h"
 
 #include "widgets/effectviewer.h"
+#include "widgets/playcontrolpanel.h"
 
 struct Options
 {
@@ -70,7 +72,8 @@ gcn::Container* top;
 gcn::ImageFont* font;
 ImageLoader* imageLoader; // TMW's ImageLoader, not GCN's virtual class
 
-EffectViewer *effectViewer;
+EffectViewer* effectViewer;
+PlayControlPanel* playControlPanel;
 
 // in particlEd Configuration is empty (mock!)
 Configuration config;
@@ -119,7 +122,7 @@ int main(int argc, char* argv[])
   bool quit = false;
 
   // event loop
-  for (int i = 0; i < 2000; i++) {
+  while (true) {
     while (SDL_PollEvent(&event)) {
       if (event.type == SDL_QUIT) {
 	quit = true;
@@ -143,7 +146,8 @@ int main(int argc, char* argv[])
 
     // std::cout << m->getNumSprites() << std::endl;
 
-    effectViewer->draw(graphics);
+    gui->logic();
+    gui->draw();
     graphics->updateScreen();
 
     // end if particle effect has ended
@@ -180,6 +184,8 @@ int main(int argc, char* argv[])
  */
 void initEngine()
 {
+  gcn::SDLImageLoader* sdlImageLoader;
+
   // Initialize SDL
   logger->log("[SDL] Initializing SDL...");
   if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) < 0) {
@@ -210,7 +216,7 @@ void initEngine()
     resman->addToSearchPath(options.dataDir, false);
   }
   // directory with particlEd's own data:
-  // resman->addToSearchPath("/home/igneus/src/cplusplus/particlEd/particled/data", false);
+  resman->addToSearchPath("data", false);
 
   logger->log("[RM] OK.");
 
@@ -242,10 +248,11 @@ void initEngine()
   gui = new gcn::Gui();
   gui->setGraphics(graphics);
 
-  imageLoader = new ImageLoader();
-  gcn::Image::setImageLoader(imageLoader);
-
-  /*
+  // temporarily use gcn::SDLImageLoader - TMW's ImageLoader doesn't load
+  // the font for me
+  sdlImageLoader = new gcn::SDLImageLoader();
+  gcn::Image::setImageLoader(sdlImageLoader);  
+  
   try {
     std::string fontpath = resman->getPath("sansserif8.png");
     font = new gcn::ImageFont(fontpath.c_str(), " !\"#$%&'()=+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~|");
@@ -253,8 +260,12 @@ void initEngine()
     logger->log("Error: Can't load font.");
     exit(1);
   }
-  gcn::Widget::setGlobalFont(font);
-  */
+  //gcn::Widget::setGlobalFont(font);
+  delete sdlImageLoader;
+
+  // font loaded; go for TMW's ImageLoader
+  imageLoader = new ImageLoader();
+  gcn::Image::setImageLoader(imageLoader);  
 
   top = new gcn::Container;
   top->setDimension(gcn::Rectangle(0,0,graphics->getWidth(),
@@ -266,18 +277,24 @@ void initEngine()
   effectViewer->setDimension(gcn::Rectangle(0,0,
 					    options.winWidth,
 					    options.winHeight));
+
+  playControlPanel = new PlayControlPanel();
+  playControlPanel->setDimension(gcn::Rectangle(0,0,
+						options.winWidth,50));
+  playControlPanel->setPosition(0, options.winHeight);
+  top->add(playControlPanel);
 }
 
 /** Clear the engine */
 void exitEngine()
 {
   delete effectViewer;
+  delete playControlPanel;
   delete top;
   delete graphics;
   delete gui;
-  /*
   delete font;
-  */
+
   delete imageLoader;
 
   // Shutdown libxml
