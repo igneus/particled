@@ -92,6 +92,12 @@ int main(int argc, char* argv[])
 
   // parse options; set some defaults; control required ones
   parseOptions(argc, argv, options);
+
+  if (options.printHelpAndExit) {
+    printHelp();
+    return(0);
+  }
+
   if (options.effectX == 0)
     options.effectX = options.winWidth / 2;
   if (options.effectY == 0)
@@ -99,11 +105,6 @@ int main(int argc, char* argv[])
   if (options.effectFile.empty()) {
     logger->error("Please, specify particle effect definition file.");
     return(1);
-  }
-
-  if (options.printHelpAndExit) {
-    printHelp();
-    return(0);
   }
 
   PHYSFS_init(argv[0]);
