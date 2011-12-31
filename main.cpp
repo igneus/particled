@@ -254,7 +254,7 @@ void initEngine()
   gcn::Image::setImageLoader(sdlImageLoader);  
   
   try {
-    std::string fontpath = resman->getPath("sansserif8.png");
+    std::string fontpath = resman->getPath("browserfont.png");
     font = new gcn::ImageFont(fontpath.c_str(), " !\"#$%&'()=+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~|");
   } catch (gcn::Exception e) {
     logger->log("Error: Can't load font.");
