@@ -78,6 +78,7 @@
 #endif
 #ifndef HAS_STDINT
 typedef unsigned int uint32_t;
+typedef unsigned int uint8_t;
 #endif
 
 #define SHA256_BLOCK_SIZE  (512 / 8)

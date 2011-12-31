@@ -23,6 +23,7 @@
 
 /* Fake configuration implementation */
 
+#include <cstdlib>
 #include "configuration.h"
 
 // #include <libxml/xmlwriter.h>
